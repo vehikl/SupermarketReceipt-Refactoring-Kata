@@ -33,7 +33,7 @@ describe('Supermarket', () => {
 
     afterEach(() => {
         expect(receipt).toMatchSnapshot();
-    })
+    });
 
     it('applies three for two discount', () => {
         cart.addItemQuantity(toothbrush, 3);
