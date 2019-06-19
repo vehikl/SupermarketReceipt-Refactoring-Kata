@@ -11,7 +11,9 @@ describe('Supermarket', () => {
     const applePrice: number = 1.99;
     const toothbrushPrice: number = 0.99;
     const ricePrice: number = 2.49;
+    const toothpastePrice: number = 1.79;
     let toothbrush: Product;
+    let toothpaste: Product;
     let apples: Product;
     let rice: Product;
     let catalog: SupermarketCatalog;
@@ -24,9 +26,11 @@ describe('Supermarket', () => {
         toothbrush = new Product("toothbrush", ProductUnit.Each);
         apples = new Product("apples", ProductUnit.Kilo);
         rice = new Product("rice", ProductUnit.Each);
+        toothpaste = new Product("toothpaste", ProductUnit.Each);
         catalog.addProduct(toothbrush, toothbrushPrice);
         catalog.addProduct(apples, applePrice);
         catalog.addProduct(rice, ricePrice);
+        catalog.addProduct(toothpaste, toothpastePrice);
         cart = new ShoppingCart();
         teller = new Teller(catalog);
     });
@@ -67,5 +71,16 @@ describe('Supermarket', () => {
         receipt = teller.checksOutArticlesFrom(cart);
 
         expect(receipt.getTotalPrice()).toBeCloseTo(ricePrice * discountMultiplier);
+    });
+
+    it('applies five for amount discount', () => {
+        const discountedPriceForFive: number = 7.49;
+        cart.addItemQuantity(toothpaste, 5);
+
+        teller.addSpecialOffer(SpecialOfferType.FiveForAmount, toothpaste, discountedPriceForFive);
+
+        receipt = teller.checksOutArticlesFrom(cart);
+
+        expect(receipt.getTotalPrice()).toEqual(discountedPriceForFive);
     });
 });
