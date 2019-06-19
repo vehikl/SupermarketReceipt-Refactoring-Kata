@@ -90,12 +90,23 @@ describe('Supermarket', () => {
 
     it('applies two for amount discount', () => {
         const discountedPriceForTwo: number = 0.99;
-        cart.addItemQuantity(cherryTomatoes, 2);
+        cart.addItem(cherryTomatoes);
+        cart.addItem(cherryTomatoes);
 
         teller.addSpecialOffer(SpecialOfferType.TwoForAmount, cherryTomatoes, discountedPriceForTwo);
 
         receipt = teller.checksOutArticlesFrom(cart);
 
         expect(receipt.getTotalPrice()).toEqual(discountedPriceForTwo);
+    });
+
+    it('does not apply discount to items not purchased', () => {
+        cart.addItem(toothpaste);
+
+        teller.addSpecialOffer(SpecialOfferType.TwoForAmount, cherryTomatoes, 0.99);
+
+        receipt = teller.checksOutArticlesFrom(cart);
+
+        expect(receipt.getTotalPrice()).toEqual(toothpastePrice);
     });
 });

@@ -123,8 +123,34 @@ Receipt {
         "name": "cherry tomatoes",
         "unit": 1,
       },
-      "quantity": 2,
-      "totalPrice": 1.38,
+      "quantity": 1,
+      "totalPrice": 0.69,
+    },
+    ReceiptItem {
+      "price": 0.69,
+      "product": Product {
+        "name": "cherry tomatoes",
+        "unit": 1,
+      },
+      "quantity": 1,
+      "totalPrice": 0.69,
+    },
+  ],
+}
+`;
+
+exports[`Supermarket does not apply discount to items not purchased 1`] = `
+Receipt {
+  "discounts": Array [],
+  "items": Array [
+    ReceiptItem {
+      "price": 1.79,
+      "product": Product {
+        "name": "toothpaste",
+        "unit": 1,
+      },
+      "quantity": 1,
+      "totalPrice": 1.79,
     },
   ],
 }
