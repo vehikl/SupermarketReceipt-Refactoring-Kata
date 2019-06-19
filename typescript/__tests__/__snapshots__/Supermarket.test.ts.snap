@@ -1,32 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Supermarket applies percentage discounts 1`] = `
-Receipt {
-  "discounts": Array [
-    Discount {
-      "description": "20% off",
-      "discountAmount": 0.39799999999999996,
-      "product": Product {
-        "name": "apples",
-        "unit": 0,
-      },
-    },
-  ],
-  "items": Array [
-    ReceiptItem {
-      "price": 1.99,
-      "product": Product {
-        "name": "apples",
-        "unit": 0,
-      },
-      "quantity": 1,
-      "totalPrice": 1.99,
-    },
-  ],
-}
-`;
-
-exports[`Supermarket applies ten percent discout 1`] = `
+exports[`Supermarket applies ten percent discount 1`] = `
 Receipt {
   "discounts": Array [
     Discount {
@@ -52,7 +26,7 @@ Receipt {
 }
 `;
 
-exports[`Supermarket three for two discount 1`] = `
+exports[`Supermarket applies three for two discount 1`] = `
 Receipt {
   "discounts": Array [
     Discount {
@@ -73,6 +47,32 @@ Receipt {
       },
       "quantity": 3,
       "totalPrice": 2.9699999999999998,
+    },
+  ],
+}
+`;
+
+exports[`Supermarket applies twenty percent discount 1`] = `
+Receipt {
+  "discounts": Array [
+    Discount {
+      "description": "20% off",
+      "discountAmount": 0.39799999999999996,
+      "product": Product {
+        "name": "apples",
+        "unit": 0,
+      },
+    },
+  ],
+  "items": Array [
+    ReceiptItem {
+      "price": 1.99,
+      "product": Product {
+        "name": "apples",
+        "unit": 0,
+      },
+      "quantity": 1,
+      "totalPrice": 1.99,
     },
   ],
 }
