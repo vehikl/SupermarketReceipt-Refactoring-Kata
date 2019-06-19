@@ -10,23 +10,29 @@ import { ProductUnit } from "../src/model/ProductUnit"
 describe('Supermarket', function () {
     const applePrice: number = 1.99;
     const toothbrushPrice: number = 0.99;
+    const ricePrice: number = 2.49;
     let toothbrush: Product;
     let apples: Product;
+    let rice: Product;
     let catalog: SupermarketCatalog;
+    let cart: ShoppingCart;
+    let teller: Teller;
 
     beforeEach(() => {
         catalog = new FakeCatalog();
         toothbrush = new Product("toothbrush", ProductUnit.Each);
         apples = new Product("apples", ProductUnit.Kilo);
+        rice = new Product("rice", ProductUnit.Each);
         catalog.addProduct(toothbrush, toothbrushPrice);
         catalog.addProduct(apples, applePrice);
+        catalog.addProduct(rice, ricePrice);
+        cart = new ShoppingCart();
+        teller = new Teller(catalog);
     });
 
     it('three for two discount', function () {
-        const cart: ShoppingCart = new ShoppingCart();
         cart.addItemQuantity(toothbrush, 3);
 
-        const teller: Teller = new Teller(catalog);
         teller.addSpecialOffer(SpecialOfferType.ThreeForTwo, toothbrush, 10.0);
 
         const receipt: Receipt = teller.checksOutArticlesFrom(cart);
@@ -36,15 +42,28 @@ describe('Supermarket', function () {
     });
 
     it('applies percentage discounts', () => {
-        const cart: ShoppingCart = new ShoppingCart();
+        const discountPercentage = 20.0;
+        const discountMultiplier = (100 - discountPercentage) / 100;
         cart.addItemQuantity(apples, 1);
 
-        const teller: Teller = new Teller(catalog);
-        teller.addSpecialOffer(SpecialOfferType.TenPercentDiscount, apples, 20.0);
+        teller.addSpecialOffer(SpecialOfferType.TenPercentDiscount, apples, discountPercentage);
 
         const receipt: Receipt = teller.checksOutArticlesFrom(cart);
 
         expect(receipt).toMatchSnapshot();
-        expect(receipt.getTotalPrice()).toBeCloseTo(applePrice * 0.8);
+        expect(receipt.getTotalPrice()).toBeCloseTo(applePrice * discountMultiplier);
+    });
+
+    it('applies ten percent discout', () => {
+        const discountPercentage = 10.0;
+        const discountMultiplier = (100 - discountPercentage) / 100;
+        cart.addItemQuantity(rice, 1);
+
+        teller.addSpecialOffer(SpecialOfferType.TenPercentDiscount, rice, discountPercentage);
+
+        const receipt: Receipt = teller.checksOutArticlesFrom(cart);
+
+        expect(receipt).toMatchSnapshot();
+        expect(receipt.getTotalPrice()).toBeCloseTo(ricePrice * discountMultiplier);
     });
 });

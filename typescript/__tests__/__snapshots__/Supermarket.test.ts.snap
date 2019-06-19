@@ -26,6 +26,32 @@ Receipt {
 }
 `;
 
+exports[`Supermarket applies ten percent discout 1`] = `
+Receipt {
+  "discounts": Array [
+    Discount {
+      "description": "10% off",
+      "discountAmount": 0.24900000000000003,
+      "product": Product {
+        "name": "rice",
+        "unit": 1,
+      },
+    },
+  ],
+  "items": Array [
+    ReceiptItem {
+      "price": 2.49,
+      "product": Product {
+        "name": "rice",
+        "unit": 1,
+      },
+      "quantity": 1,
+      "totalPrice": 2.49,
+    },
+  ],
+}
+`;
+
 exports[`Supermarket three for two discount 1`] = `
 Receipt {
   "discounts": Array [
