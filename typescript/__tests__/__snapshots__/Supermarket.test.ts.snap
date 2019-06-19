@@ -103,3 +103,29 @@ Receipt {
   ],
 }
 `;
+
+exports[`Supermarket applies two for amount discount 1`] = `
+Receipt {
+  "discounts": Array [
+    Discount {
+      "description": "2 for 0.99",
+      "discountAmount": 0.3899999999999999,
+      "product": Product {
+        "name": "cherry tomatoes",
+        "unit": 1,
+      },
+    },
+  ],
+  "items": Array [
+    ReceiptItem {
+      "price": 0.69,
+      "product": Product {
+        "name": "cherry tomatoes",
+        "unit": 1,
+      },
+      "quantity": 2,
+      "totalPrice": 1.38,
+    },
+  ],
+}
+`;

@@ -12,10 +12,12 @@ describe('Supermarket', () => {
     const toothbrushPrice: number = 0.99;
     const ricePrice: number = 2.49;
     const toothpastePrice: number = 1.79;
+    const cherryTomatoesPrice: number = 0.69;
     let toothbrush: Product;
     let toothpaste: Product;
     let apples: Product;
     let rice: Product;
+    let cherryTomatoes: Product;
     let catalog: SupermarketCatalog;
     let cart: ShoppingCart;
     let teller: Teller;
@@ -27,10 +29,12 @@ describe('Supermarket', () => {
         apples = new Product("apples", ProductUnit.Kilo);
         rice = new Product("rice", ProductUnit.Each);
         toothpaste = new Product("toothpaste", ProductUnit.Each);
+        cherryTomatoes = new Product("cherry tomatoes", ProductUnit.Each);
         catalog.addProduct(toothbrush, toothbrushPrice);
         catalog.addProduct(apples, applePrice);
         catalog.addProduct(rice, ricePrice);
         catalog.addProduct(toothpaste, toothpastePrice);
+        catalog.addProduct(cherryTomatoes, cherryTomatoesPrice);
         cart = new ShoppingCart();
         teller = new Teller(catalog);
     });
@@ -82,5 +86,16 @@ describe('Supermarket', () => {
         receipt = teller.checksOutArticlesFrom(cart);
 
         expect(receipt.getTotalPrice()).toEqual(discountedPriceForFive);
+    });
+
+    it('applies two for amount discount', () => {
+        const discountedPriceForTwo: number = 0.99;
+        cart.addItemQuantity(cherryTomatoes, 2);
+
+        teller.addSpecialOffer(SpecialOfferType.TwoForAmount, cherryTomatoes, discountedPriceForTwo);
+
+        receipt = teller.checksOutArticlesFrom(cart);
+
+        expect(receipt.getTotalPrice()).toEqual(discountedPriceForTwo);
     });
 });
