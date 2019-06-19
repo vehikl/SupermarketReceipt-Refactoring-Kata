@@ -1,5 +1,31 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Supermarket applies percentage discounts 1`] = `
+Receipt {
+  "discounts": Array [
+    Discount {
+      "description": "20% off",
+      "discountAmount": 0.39799999999999996,
+      "product": Product {
+        "name": "apples",
+        "unit": 0,
+      },
+    },
+  ],
+  "items": Array [
+    ReceiptItem {
+      "price": 1.99,
+      "product": Product {
+        "name": "apples",
+        "unit": 0,
+      },
+      "quantity": 1,
+      "totalPrice": 1.99,
+    },
+  ],
+}
+`;
+
 exports[`Supermarket three for two discount 1`] = `
 Receipt {
   "discounts": Array [

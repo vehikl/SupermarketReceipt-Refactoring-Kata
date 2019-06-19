@@ -8,13 +8,21 @@ import { SpecialOfferType } from "../src/model/SpecialOfferType"
 import { ProductUnit } from "../src/model/ProductUnit"
 
 describe('Supermarket', function () {
+    const applePrice: number = 1.99;
+    const toothbrushPrice: number = 0.99;
+    let toothbrush: Product;
+    let apples: Product;
+    let catalog: SupermarketCatalog;
+
+    beforeEach(() => {
+        catalog = new FakeCatalog();
+        toothbrush = new Product("toothbrush", ProductUnit.Each);
+        apples = new Product("apples", ProductUnit.Kilo);
+        catalog.addProduct(toothbrush, toothbrushPrice);
+        catalog.addProduct(apples, applePrice);
+    });
 
     it('three for two discount', function () {
-        const toothbrushPrice: number = 0.99;
-        const catalog: SupermarketCatalog = new FakeCatalog();
-        const toothbrush: Product = new Product("toothbrush", ProductUnit.Each);
-        catalog.addProduct(toothbrush, toothbrushPrice);
-
         const cart: ShoppingCart = new ShoppingCart();
         cart.addItemQuantity(toothbrush, 3);
 
@@ -24,7 +32,19 @@ describe('Supermarket', function () {
         const receipt: Receipt = teller.checksOutArticlesFrom(cart);
 
         expect(receipt).toMatchSnapshot();
-        expect(receipt.getTotalPrice()).toBeCloseTo(toothbrushPrice * 2)
+        expect(receipt.getTotalPrice()).toBeCloseTo(toothbrushPrice * 2);
     });
 
+    it('applies percentage discounts', () => {
+        const cart: ShoppingCart = new ShoppingCart();
+        cart.addItemQuantity(apples, 1);
+
+        const teller: Teller = new Teller(catalog);
+        teller.addSpecialOffer(SpecialOfferType.TenPercentDiscount, apples, 20.0);
+
+        const receipt: Receipt = teller.checksOutArticlesFrom(cart);
+
+        expect(receipt).toMatchSnapshot();
+        expect(receipt.getTotalPrice()).toBeCloseTo(applePrice * 0.8);
+    });
 });
