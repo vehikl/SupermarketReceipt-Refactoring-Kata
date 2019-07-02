@@ -6,6 +6,7 @@ import { ShoppingCart } from "../src/model/ShoppingCart"
 import { Teller } from "../src/model/Teller"
 import { SpecialOfferType } from "../src/model/SpecialOfferType"
 import { ProductUnit } from "../src/model/ProductUnit"
+import { ReceiptPrinter } from "../src/ReceiptPrinter"
 
 describe('Supermarket', () => {
     const applePrice: number = 1.99;
@@ -22,6 +23,7 @@ describe('Supermarket', () => {
     let cart: ShoppingCart;
     let teller: Teller;
     let receipt: Receipt;
+    let printer: ReceiptPrinter;
 
     beforeEach(() => {
         catalog = new FakeCatalog();
@@ -37,10 +39,11 @@ describe('Supermarket', () => {
         catalog.addProduct(cherryTomatoes, cherryTomatoesPrice);
         cart = new ShoppingCart();
         teller = new Teller(catalog);
+        printer = new ReceiptPrinter();
     });
 
     afterEach(() => {
-        expect(receipt).toMatchSnapshot();
+        expect(printer.printReceipt(receipt)).toMatchSnapshot();
     });
 
     it('applies three for two discount', () => {
