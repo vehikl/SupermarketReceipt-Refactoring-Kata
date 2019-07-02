@@ -8,8 +8,4 @@ export class Offer {
                        public readonly argument: number) {
     }
 
-    getProduct(): Product {
-        return this.product;
-    }
-
 }
