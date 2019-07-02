@@ -43,3 +43,9 @@ exports[`Supermarket does not apply discount to items not purchased 1`] = `
 
 Total:                              1.79"
 `;
+
+exports[`Supermarket does not apply two for amount if 1 item purchased 1`] = `
+"cherry tomatoes                     0.69
+
+Total:                              0.69"
+`;

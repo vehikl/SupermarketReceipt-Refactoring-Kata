@@ -104,6 +104,18 @@ describe('Supermarket', () => {
         expect(printer.printReceipt(receipt)).toMatchSnapshot();
     });
 
+    it('does not apply two for amount if 1 item purchased', () => {
+        const discountedPriceForTwo: number = 0.99;
+        cart.addItem(cherryTomatoes);
+
+        teller.addSpecialOffer(SpecialOfferType.TwoForAmount, cherryTomatoes, discountedPriceForTwo);
+
+        receipt = teller.checksOutArticlesFrom(cart);
+
+        expect(receipt.getTotalPrice()).toEqual(cherryTomatoesPrice);
+        expect(printer.printReceipt(receipt)).toMatchSnapshot();
+    });
+
     it('does not apply discount to items not purchased', () => {
         cart.addItem(toothpaste);
 
