@@ -42,10 +42,6 @@ describe('Supermarket', () => {
         printer = new ReceiptPrinter();
     });
 
-    afterEach(() => {
-        expect(printer.printReceipt(receipt)).toMatchSnapshot();
-    });
-
     it('applies three for two discount', () => {
         cart.addItemQuantity(toothbrush, 3);
 
@@ -54,6 +50,7 @@ describe('Supermarket', () => {
         receipt = teller.checksOutArticlesFrom(cart);
 
         expect(receipt.getTotalPrice()).toBeCloseTo(toothbrushPrice * 2);
+        expect(printer.printReceipt(receipt)).toMatchSnapshot();
     });
 
     it('applies twenty percent discount', () => {
@@ -66,6 +63,7 @@ describe('Supermarket', () => {
         receipt = teller.checksOutArticlesFrom(cart);
 
         expect(receipt.getTotalPrice()).toBeCloseTo(applePrice * discountMultiplier);
+        expect(printer.printReceipt(receipt)).toMatchSnapshot();
     });
 
     it('applies ten percent discount', () => {
@@ -78,6 +76,7 @@ describe('Supermarket', () => {
         receipt = teller.checksOutArticlesFrom(cart);
 
         expect(receipt.getTotalPrice()).toBeCloseTo(ricePrice * discountMultiplier);
+        expect(printer.printReceipt(receipt)).toMatchSnapshot();
     });
 
     it('applies five for amount discount', () => {
@@ -89,6 +88,7 @@ describe('Supermarket', () => {
         receipt = teller.checksOutArticlesFrom(cart);
 
         expect(receipt.getTotalPrice()).toEqual(discountedPriceForFive);
+        expect(printer.printReceipt(receipt)).toMatchSnapshot();
     });
 
     it('applies two for amount discount', () => {
@@ -101,6 +101,7 @@ describe('Supermarket', () => {
         receipt = teller.checksOutArticlesFrom(cart);
 
         expect(receipt.getTotalPrice()).toEqual(discountedPriceForTwo);
+        expect(printer.printReceipt(receipt)).toMatchSnapshot();
     });
 
     it('does not apply discount to items not purchased', () => {
@@ -111,5 +112,6 @@ describe('Supermarket', () => {
         receipt = teller.checksOutArticlesFrom(cart);
 
         expect(receipt.getTotalPrice()).toEqual(toothpastePrice);
+        expect(printer.printReceipt(receipt)).toMatchSnapshot();
     });
 });
