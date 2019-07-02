@@ -70,16 +70,16 @@ export class ShoppingCart {
                 } if (offer.offerType == SpecialOfferType.FiveForAmount) {
                     minimumQuantityForOffer = 5;
                 }
-                const numberOfXs = Math.floor(quantityAsInt / minimumQuantityForOffer);
+                const maybeDiscountMultiple = Math.floor(quantityAsInt / minimumQuantityForOffer);
                 if (offer.offerType == SpecialOfferType.ThreeForTwo && quantityAsInt > 2) {
-                    const discountAmount = quantity * unitPrice - ((numberOfXs * 2 * unitPrice) + quantityAsInt % 3 * unitPrice);
+                    const discountAmount = quantity * unitPrice - ((maybeDiscountMultiple * 2 * unitPrice) + quantityAsInt % 3 * unitPrice);
                     discount = new Discount(product, "3 for 2", discountAmount);
                 }
                 if (offer.offerType == SpecialOfferType.TenPercentDiscount) {
                     discount = new Discount(product, offer.argument + "% off", quantity * unitPrice * offer.argument / 100.0);
                 }
                 if (offer.offerType == SpecialOfferType.FiveForAmount && quantityAsInt >= 5) {
-                    const discountAmount = unitPrice * quantity - (offer.argument * numberOfXs + quantityAsInt % 5 * unitPrice);
+                    const discountAmount = unitPrice * quantity - (offer.argument * maybeDiscountMultiple + quantityAsInt % 5 * unitPrice);
                     discount = new Discount(product, minimumQuantityForOffer + " for " + offer.argument, discountAmount);
                 }
                 if (discount != null)
