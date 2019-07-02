@@ -63,8 +63,8 @@ export class ShoppingCart {
                     x = 2;
                     if (quantityAsInt >= 2) {
                         const total = offer.argument * Math.floor(quantityAsInt / x) + quantityAsInt % 2 * unitPrice;
-                        const discountN = unitPrice * quantity - total;
-                        discount = new Discount(product, "2 for " + offer.argument, discountN);
+                        const discountAmount = unitPrice * quantity - total;
+                        discount = new Discount(product, "2 for " + offer.argument, discountAmount);
                     }
 
                 } if (offer.offerType == SpecialOfferType.FiveForAmount) {
@@ -79,8 +79,8 @@ export class ShoppingCart {
                     discount = new Discount(product, offer.argument + "% off", quantity * unitPrice * offer.argument / 100.0);
                 }
                 if (offer.offerType == SpecialOfferType.FiveForAmount && quantityAsInt >= 5) {
-                    const discountTotal = unitPrice * quantity - (offer.argument * numberOfXs + quantityAsInt % 5 * unitPrice);
-                    discount = new Discount(product, x + " for " + offer.argument, discountTotal);
+                    const discountAmount = unitPrice * quantity - (offer.argument * numberOfXs + quantityAsInt % 5 * unitPrice);
+                    discount = new Discount(product, x + " for " + offer.argument, discountAmount);
                 }
                 if (discount != null)
                     receipt.addDiscount(discount);
