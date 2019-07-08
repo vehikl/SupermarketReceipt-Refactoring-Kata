@@ -6,6 +6,7 @@ import { Discount } from "./Discount"
 import { Receipt } from "./Receipt"
 import { Offer } from "./Offer"
 import { SpecialOfferType } from "./SpecialOfferType"
+import { TwoForAmountOffer } from "./TwoForAmountOffer";
 
 type ProductQuantities = { [productName: string]: ProductQuantity }
 export type OffersByProduct = { [productName: string]: Offer };
@@ -103,12 +104,12 @@ export class ShoppingCart {
     }
 
     private getTwoForAmountDiscount(offerType: SpecialOfferType, quantityAsInt: number, offer: Offer, minimumQuantityForOffer: number, unitPrice: number, quantity: number, discount: Discount | null, product: Product) {
-        if (offerType == SpecialOfferType.TwoForAmount && quantityAsInt >= 2) {
-            const total = offer.argument * Math.floor(quantityAsInt / minimumQuantityForOffer) + quantityAsInt % 2 * unitPrice;
-            const discountAmount = unitPrice * quantity - total;
-            discount = new Discount(product, "2 for " + offer.argument, discountAmount);
+        if (!(offerType == SpecialOfferType.TwoForAmount && quantityAsInt >= 2)) {
+            return discount;
         }
-        return discount;
+
+        const twoForAmount: TwoForAmountOffer = new TwoForAmountOffer(product, unitPrice);
+        return twoForAmount.getDiscount(quantityAsInt, offer, quantity);
     }
 
     private getQuantityForOffer(offerType: SpecialOfferType) {
