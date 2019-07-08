@@ -57,38 +57,63 @@ export class ShoppingCart {
                 let discount : Discount|null = null;
 
                 const offerType = offer.offerType;
-                let minimumQuantityForOffer = 1;
-                if (offerType == SpecialOfferType.ThreeForTwo) {
-                    minimumQuantityForOffer = 3;
-
-                } else if (offerType == SpecialOfferType.TwoForAmount) {
-                    minimumQuantityForOffer = 2;
-
-                } if (offerType == SpecialOfferType.FiveForAmount) {
-                    minimumQuantityForOffer = 5;
-                }
+                let minimumQuantityForOffer = this.getQuantityForOffer(offerType);
                 const maybeDiscountMultiple = Math.floor(quantityAsInt / minimumQuantityForOffer);
-                if (offerType == SpecialOfferType.TwoForAmount && quantityAsInt >= 2) {
-                    const total = offer.argument * Math.floor(quantityAsInt / minimumQuantityForOffer) + quantityAsInt % 2 * unitPrice;
-                    const discountAmount = unitPrice * quantity - total;
-                    discount = new Discount(product, "2 for " + offer.argument, discountAmount);
-                }
 
-                if (offerType == SpecialOfferType.ThreeForTwo && quantityAsInt > 2) {
-                    const discountAmount = quantity * unitPrice - ((maybeDiscountMultiple * 2 * unitPrice) + quantityAsInt % 3 * unitPrice);
-                    discount = new Discount(product, "3 for 2", discountAmount);
-                }
-                if (offerType == SpecialOfferType.TenPercentDiscount) {
-                    discount = new Discount(product, offer.argument + "% off", quantity * unitPrice * offer.argument / 100.0);
-                }
-                if (offerType == SpecialOfferType.FiveForAmount && quantityAsInt >= 5) {
-                    const discountAmount = unitPrice * quantity - (offer.argument * maybeDiscountMultiple + quantityAsInt % 5 * unitPrice);
-                    discount = new Discount(product, minimumQuantityForOffer + " for " + offer.argument, discountAmount);
-                }
+                discount = this.getTwoForAmountDiscount(offerType, quantityAsInt, offer, minimumQuantityForOffer, unitPrice, quantity, discount, product);
+                discount = this.threeForTwoDiscount(offerType, quantityAsInt, quantity, unitPrice, maybeDiscountMultiple, discount, product);
+                discount = this.tenPercentDiscount(offerType, discount, product, offer, quantity, unitPrice);
+                discount = this.fiveForAmountDiscount(offerType, quantityAsInt, unitPrice, quantity, offer, maybeDiscountMultiple, discount, product, minimumQuantityForOffer);
                 if (discount != null)
                     receipt.addDiscount(discount);
             }
 
         }
+    }
+
+    private fiveForAmountDiscount(offerType: SpecialOfferType, quantityAsInt: number, unitPrice: number, quantity: number, offer: Offer, maybeDiscountMultiple: number, discount: Discount | null, product: Product, minimumQuantityForOffer: number) {
+        if (offerType == SpecialOfferType.FiveForAmount && quantityAsInt >= 5) {
+            const discountAmount = unitPrice * quantity - (offer.argument * maybeDiscountMultiple + quantityAsInt % 5 * unitPrice);
+            discount = new Discount(product, minimumQuantityForOffer + " for " + offer.argument, discountAmount);
+        }
+        return discount;
+    }
+
+    private tenPercentDiscount(offerType: SpecialOfferType, discount: Discount | null, product: Product, offer: Offer, quantity: number, unitPrice: number) {
+        if (offerType == SpecialOfferType.TenPercentDiscount) {
+            discount = new Discount(product, offer.argument + "% off", quantity * unitPrice * offer.argument / 100.0);
+        }
+        return discount;
+    }
+
+    private threeForTwoDiscount(offerType: SpecialOfferType, quantityAsInt: number, quantity: number, unitPrice: number, maybeDiscountMultiple: number, discount: Discount | null, product: Product) {
+        if (offerType == SpecialOfferType.ThreeForTwo && quantityAsInt > 2) {
+            const discountAmount = quantity * unitPrice - ((maybeDiscountMultiple * 2 * unitPrice) + quantityAsInt % 3 * unitPrice);
+            discount = new Discount(product, "3 for 2", discountAmount);
+        }
+        return discount;
+    }
+
+    private getTwoForAmountDiscount(offerType: SpecialOfferType, quantityAsInt: number, offer: Offer, minimumQuantityForOffer: number, unitPrice: number, quantity: number, discount: Discount | null, product: Product) {
+        if (offerType == SpecialOfferType.TwoForAmount && quantityAsInt >= 2) {
+            const total = offer.argument * Math.floor(quantityAsInt / minimumQuantityForOffer) + quantityAsInt % 2 * unitPrice;
+            const discountAmount = unitPrice * quantity - total;
+            discount = new Discount(product, "2 for " + offer.argument, discountAmount);
+        }
+        return discount;
+    }
+
+    private getQuantityForOffer(offerType: SpecialOfferType) {
+        let minimumQuantityForOffer = 1;
+        if (offerType == SpecialOfferType.ThreeForTwo) {
+            minimumQuantityForOffer = 3;
+        }
+        else if (offerType == SpecialOfferType.TwoForAmount) {
+            minimumQuantityForOffer = 2;
+        }
+        if (offerType == SpecialOfferType.FiveForAmount) {
+            minimumQuantityForOffer = 5;
+        }
+        return minimumQuantityForOffer;
     }
 }
