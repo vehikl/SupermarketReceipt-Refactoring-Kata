@@ -1,18 +1,18 @@
-import {Product} from "./Product"
-import {SupermarketCatalog} from "./SupermarketCatalog"
+import { Product } from "./Product"
+import { SupermarketCatalog } from "./SupermarketCatalog"
 import * as _ from "lodash"
-import {ProductQuantity} from "./ProductQuantity"
-import {Discount} from "./Discount"
-import {Receipt} from "./Receipt"
-import {Offer} from "./Offer"
-import {SpecialOfferType} from "./SpecialOfferType"
+import { ProductQuantity } from "./ProductQuantity"
+import { Discount } from "./Discount"
+import { Receipt } from "./Receipt"
+import { Offer } from "./Offer"
+import { SpecialOfferType } from "./SpecialOfferType"
 
 type ProductQuantities = { [productName: string]: ProductQuantity }
-export type OffersByProduct = {[productName: string]: Offer};
+export type OffersByProduct = { [productName: string]: Offer };
 
 export class ShoppingCart {
 
-    private readonly  items: ProductQuantity[] = [];
+    private readonly items: ProductQuantity[] = [];
     _productQuantities: ProductQuantities = {};
 
 
@@ -45,30 +45,38 @@ export class ShoppingCart {
         return new ProductQuantity(product, productQuantity.quantity + quantity)
     }
 
-    handleOffers(receipt: Receipt,  offers: OffersByProduct, catalog: SupermarketCatalog ):void {
+    handleOffers(receipt: Receipt, offers: OffersByProduct, catalog: SupermarketCatalog): void {
         for (const productName in this.productQuantities()) {
             const productQuantity = this._productQuantities[productName]
             const product = productQuantity.product;
-            const quantity: number = this._productQuantities[productName].quantity;
+
             if (offers[productName]) {
-                const offer : Offer = offers[productName];
-                const unitPrice: number= catalog.getUnitPrice(product);
-                let quantityAsInt = quantity;
-                let discount : Discount|null = null;
+                const offer: Offer = offers[productName];
+                const unitPrice: number = catalog.getUnitPrice(product);
 
                 const offerType = offer.offerType;
-                let minimumQuantityForOffer = this.getQuantityForOffer(offerType);
-                const maybeDiscountMultiple = Math.floor(quantityAsInt / minimumQuantityForOffer);
 
-                discount = this.getTwoForAmountDiscount(offerType, quantityAsInt, offer, minimumQuantityForOffer, unitPrice, quantity, discount, product);
-                discount = this.threeForTwoDiscount(offerType, quantityAsInt, quantity, unitPrice, maybeDiscountMultiple, discount, product);
-                discount = this.tenPercentDiscount(offerType, discount, product, offer, quantity, unitPrice);
-                discount = this.fiveForAmountDiscount(offerType, quantityAsInt, unitPrice, quantity, offer, maybeDiscountMultiple, discount, product, minimumQuantityForOffer);
+                let discount = this.getDiscountForOffer(productName, offerType, offer, unitPrice, product);
+
                 if (discount != null)
                     receipt.addDiscount(discount);
             }
 
         }
+    }
+
+    private getDiscountForOffer(productName: string, offerType: SpecialOfferType, offer: Offer, unitPrice: number, product: Product) {
+        const quantity: number = this._productQuantities[productName].quantity;
+        const quantityAsInt = quantity;
+        let minimumQuantityForOffer = this.getQuantityForOffer(offerType);
+        const maybeDiscountMultiple = Math.floor(quantityAsInt / minimumQuantityForOffer);
+        let discount: Discount | null = null;
+
+        discount = this.getTwoForAmountDiscount(offerType, quantityAsInt, offer, minimumQuantityForOffer, unitPrice, quantity, discount, product);
+        discount = this.threeForTwoDiscount(offerType, quantityAsInt, quantity, unitPrice, maybeDiscountMultiple, discount, product);
+        discount = this.tenPercentDiscount(offerType, discount, product, offer, quantity, unitPrice);
+        discount = this.fiveForAmountDiscount(offerType, quantityAsInt, unitPrice, quantity, offer, maybeDiscountMultiple, discount, product, minimumQuantityForOffer);
+        return discount;
     }
 
     private fiveForAmountDiscount(offerType: SpecialOfferType, quantityAsInt: number, unitPrice: number, quantity: number, offer: Offer, maybeDiscountMultiple: number, discount: Discount | null, product: Product, minimumQuantityForOffer: number) {
