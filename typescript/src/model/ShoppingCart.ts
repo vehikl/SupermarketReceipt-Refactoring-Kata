@@ -7,6 +7,7 @@ import { Receipt } from "./Receipt"
 import { Offer } from "./Offer"
 import { SpecialOfferType } from "./SpecialOfferType"
 import { TwoForAmountOffer } from "./TwoForAmountOffer";
+import { ThreeForTwoOffer } from "./ThreeForTwoOffer";
 
 type ProductQuantities = { [productName: string]: ProductQuantity }
 export type OffersByProduct = { [productName: string]: Offer };
@@ -27,6 +28,10 @@ export class ShoppingCart {
 
     productQuantities(): ProductQuantities {
         return this._productQuantities;
+    }
+
+    getQuantityOf(product: Product): ProductQuantity {
+        return this._productQuantities[product.name];
     }
 
 
@@ -96,11 +101,14 @@ export class ShoppingCart {
     }
 
     private threeForTwoDiscount(offerType: SpecialOfferType, quantityAsInt: number, quantity: number, unitPrice: number, maybeDiscountMultiple: number, discount: Discount | null, product: Product) {
-        if (offerType == SpecialOfferType.ThreeForTwo && quantityAsInt > 2) {
-            const discountAmount = quantity * unitPrice - ((maybeDiscountMultiple * 2 * unitPrice) + quantityAsInt % 3 * unitPrice);
-            discount = new Discount(product, "3 for 2", discountAmount);
+        const threeForTwo: ThreeForTwoOffer = new ThreeForTwoOffer(product, unitPrice);
+
+        if (!threeForTwo.applies(this)) {
+            return discount;
         }
-        return discount;
+
+
+        return threeForTwo.getDiscount(quantity);
     }
 
     private getTwoForAmountDiscount(offerType: SpecialOfferType, quantityAsInt: number, offer: Offer, minimumQuantityForOffer: number, unitPrice: number, quantity: number, discount: Discount | null, product: Product) {
