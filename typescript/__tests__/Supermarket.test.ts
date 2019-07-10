@@ -54,6 +54,20 @@ describe('Supermarket', () => {
         expect(printer.printReceipt(receipt)).toMatchSnapshot();
     });
 
+    it('applies multiple offers', () => {
+        const discountedPriceForTwo = 0.99;
+        cart.addItemQuantity(toothbrush, 3);
+        cart.addItemQuantity(cherryTomatoes, 3);
+
+        teller.addSpecialOffer(SpecialOfferType.ThreeForTwo, toothbrush, 10.0);
+        teller.addSpecialOffer(SpecialOfferType.TwoForAmount, cherryTomatoes, discountedPriceForTwo);
+
+        receipt = teller.checksOutArticlesFrom(cart);
+
+        expect(receipt.getTotalPrice()).toBeCloseTo(toothbrushPrice * 2 + discountedPriceForTwo + cherryTomatoesPrice);
+        expect(printer.printReceipt(receipt)).toMatchSnapshot();
+    });
+
     it('applies twenty percent discount', () => {
         const discountPercentage = 20.0;
         const discountMultiplier = (100 - discountPercentage) / 100;
