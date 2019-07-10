@@ -45,6 +45,7 @@ describe('Supermarket', () => {
     it('applies three for two discount', () => {
         cart.addItemQuantity(toothbrush, 3);
 
+
         teller.addSpecialOffer(SpecialOfferType.ThreeForTwo, toothbrush, 10.0);
 
         receipt = teller.checksOutArticlesFrom(cart);

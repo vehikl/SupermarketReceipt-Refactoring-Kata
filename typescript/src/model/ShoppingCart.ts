@@ -104,20 +104,19 @@ export class ShoppingCart {
     private threeForTwoDiscount(offerType: SpecialOfferType, quantityAsInt: number, quantity: number, unitPrice: number, maybeDiscountMultiple: number, discount: Discount | null, product: Product) {
         const threeForTwo: ThreeForTwoOffer = new ThreeForTwoOffer(product, unitPrice);
 
-        if (!threeForTwo.applies(this)) {
-            return discount;
+        if (offerType == SpecialOfferType.ThreeForTwo && threeForTwo.applies(this)) {
+            return threeForTwo.getDiscount(quantity);
         }
-
-
-        return threeForTwo.getDiscount(quantity);
+        return discount;
     }
 
     private getTwoForAmountDiscount(offerType: SpecialOfferType, quantityAsInt: number, offer: Offer, minimumQuantityForOffer: number, unitPrice: number, quantity: number, discount: Discount | null, product: Product) {
         const twoForAmount: TwoForAmountOffer = new TwoForAmountOffer(product, unitPrice, offer.argument);
 
-        if (!twoForAmount.applies(this)) { return discount; }
-
-        return twoForAmount.getDiscount(quantityAsInt);
+        if (offerType == SpecialOfferType.TwoForAmount && twoForAmount.applies(this)) {
+            return twoForAmount.getDiscount(quantityAsInt);
+        }
+        return discount;
     }
 
     private getQuantityForOffer(offerType: SpecialOfferType) {
