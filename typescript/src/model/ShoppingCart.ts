@@ -8,7 +8,7 @@ import { Offer } from "./Offer"
 import { SpecialOfferType } from "./SpecialOfferType"
 import { TwoForAmountOffer } from "./TwoForAmountOffer";
 import { ThreeForTwoOffer } from "./ThreeForTwoOffer";
-import { TenPercentDiscount } from "./TenPercentDiscount";
+import { PercentageDiscount } from "./PercentageDiscount";
 
 type ProductQuantities = { [productName: string]: ProductQuantity }
 export type OffersByProduct = { [productName: string]: Offer };
@@ -81,7 +81,7 @@ export class ShoppingCart {
 
         discount = this.getTwoForAmountDiscount(offerType, quantityAsInt, offer, minimumQuantityForOffer, unitPrice, quantity, discount, product);
         discount = this.threeForTwoDiscount(offerType, quantityAsInt, quantity, unitPrice, maybeDiscountMultiple, discount, product);
-        discount = this.tenPercentDiscount(offerType, discount, product, offer, quantity, unitPrice);
+        discount = this.percentageDiscount(offerType, discount, product, offer, quantity, unitPrice);
         discount = this.fiveForAmountDiscount(offerType, quantityAsInt, unitPrice, quantity, offer, maybeDiscountMultiple, discount, product, minimumQuantityForOffer);
         return discount;
     }
@@ -94,9 +94,10 @@ export class ShoppingCart {
         return discount;
     }
 
-    private tenPercentDiscount(offerType: SpecialOfferType, discount: Discount | null, product: Product, offer: Offer, quantity: number, unitPrice: number) {
-        if (offerType == SpecialOfferType.TenPercentDiscount) {
-            discount = new Discount(product, offer.argument + "% off", quantity * unitPrice * offer.argument / 100.0);
+    private percentageDiscount(offerType: SpecialOfferType, discount: Discount | null, product: Product, offer: Offer, quantity: number, unitPrice: number) {
+        const percentageDiscount: PercentageDiscount = new PercentageDiscount(product, unitPrice, offer.argument);
+        if (offerType == SpecialOfferType.TenPercentDiscount && percentageDiscount.applies(this)) {
+            return percentageDiscount.getDiscount(quantity);
         }
         return discount;
     }
