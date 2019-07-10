@@ -2,7 +2,7 @@ import { ShoppingCart } from "./ShoppingCart";
 import { Product } from "./Product";
 import { Discount } from "./Discount";
 
-export class PercentageDiscount {
+export class PercentageDiscountOffer {
   private product: Product;
   private unitPrice: number;
   private percentageOff: number;

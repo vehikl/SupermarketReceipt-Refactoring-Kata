@@ -8,7 +8,7 @@ import { Offer } from "./Offer"
 import { SpecialOfferType } from "./SpecialOfferType"
 import { TwoForAmountOffer } from "./TwoForAmountOffer";
 import { ThreeForTwoOffer } from "./ThreeForTwoOffer";
-import { PercentageDiscount } from "./PercentageDiscount";
+import { PercentageDiscountOffer } from "./PercentageDiscountOffer";
 
 type ProductQuantities = { [productName: string]: ProductQuantity }
 export type OffersByProduct = { [productName: string]: Offer };
@@ -95,7 +95,7 @@ export class ShoppingCart {
     }
 
     private percentageDiscount(offerType: SpecialOfferType, discount: Discount | null, product: Product, offer: Offer, quantity: number, unitPrice: number) {
-        const percentageDiscount: PercentageDiscount = new PercentageDiscount(product, unitPrice, offer.argument);
+        const percentageDiscount: PercentageDiscountOffer = new PercentageDiscountOffer(product, unitPrice, offer.argument);
         if (offerType == SpecialOfferType.TenPercentDiscount && percentageDiscount.applies(this)) {
             return percentageDiscount.getDiscount(quantity);
         }
