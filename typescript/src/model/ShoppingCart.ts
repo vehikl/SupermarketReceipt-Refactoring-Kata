@@ -9,6 +9,7 @@ import { SpecialOfferType } from "./SpecialOfferType"
 import { TwoForAmountOffer } from "./TwoForAmountOffer";
 import { ThreeForTwoOffer } from "./ThreeForTwoOffer";
 import { PercentageDiscountOffer } from "./PercentageDiscountOffer";
+import { FiveForAmountOffer } from "./FiveForAmountOffer";
 
 type ProductQuantities = { [productName: string]: ProductQuantity }
 export type OffersByProduct = { [productName: string]: Offer };
@@ -87,9 +88,10 @@ export class ShoppingCart {
     }
 
     private fiveForAmountDiscount(offerType: SpecialOfferType, quantityAsInt: number, unitPrice: number, quantity: number, offer: Offer, maybeDiscountMultiple: number, discount: Discount | null, product: Product, minimumQuantityForOffer: number) {
-        if (offerType == SpecialOfferType.FiveForAmount && quantityAsInt >= 5) {
-            const discountAmount = unitPrice * quantity - (offer.argument * maybeDiscountMultiple + quantityAsInt % 5 * unitPrice);
-            discount = new Discount(product, minimumQuantityForOffer + " for " + offer.argument, discountAmount);
+        const fiveForAmount: FiveForAmountOffer = new FiveForAmountOffer(product, unitPrice, offer.argument);
+
+        if (offerType == SpecialOfferType.FiveForAmount && fiveForAmount.applies(this)) {
+            return fiveForAmount.getDiscount(quantityAsInt);
         }
         return discount;
     }
