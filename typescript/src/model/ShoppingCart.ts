@@ -78,14 +78,14 @@ export class ShoppingCart {
 
         let discount: Discount | null = null;
 
-        discount = this.getTwoForAmountDiscount(offerType, offer, unitPrice, quantity, discount, product);
-        discount = this.threeForTwoDiscount(offerType, quantity, unitPrice, discount, product);
-        discount = this.percentageDiscount(offerType, discount, product, offer, quantity, unitPrice);
-        discount = this.fiveForAmountDiscount(offerType, unitPrice, quantity, offer, discount, product);
+        discount = this.getTwoForAmountDiscount(offerType, offer, unitPrice, discount, product);
+        discount = this.threeForTwoDiscount(offerType, unitPrice, discount, product);
+        discount = this.percentageDiscount(offerType, discount, product, offer, unitPrice);
+        discount = this.fiveForAmountDiscount(offerType, unitPrice, offer, discount, product);
         return discount;
     }
 
-    private fiveForAmountDiscount(offerType: SpecialOfferType, unitPrice: number, quantity: number, offer: Offer, discount: Discount | null, product: Product) {
+    private fiveForAmountDiscount(offerType: SpecialOfferType, unitPrice: number, offer: Offer, discount: Discount | null, product: Product) {
         const fiveForAmount: FiveForAmountOffer = new FiveForAmountOffer(product, unitPrice, offer.argument);
 
         if (offerType == SpecialOfferType.FiveForAmount && fiveForAmount.applies(this)) {
@@ -94,7 +94,7 @@ export class ShoppingCart {
         return discount;
     }
 
-    private percentageDiscount(offerType: SpecialOfferType, discount: Discount | null, product: Product, offer: Offer, quantity: number, unitPrice: number) {
+    private percentageDiscount(offerType: SpecialOfferType, discount: Discount | null, product: Product, offer: Offer, unitPrice: number) {
         const percentageDiscount: PercentageDiscountOffer = new PercentageDiscountOffer(product, unitPrice, offer.argument);
         if (offerType == SpecialOfferType.TenPercentDiscount && percentageDiscount.applies(this)) {
             return percentageDiscount.getDiscount(this);
@@ -102,7 +102,7 @@ export class ShoppingCart {
         return discount;
     }
 
-    private threeForTwoDiscount(offerType: SpecialOfferType, quantity: number, unitPrice: number, discount: Discount | null, product: Product) {
+    private threeForTwoDiscount(offerType: SpecialOfferType, unitPrice: number, discount: Discount | null, product: Product) {
         const threeForTwo: ThreeForTwoOffer = new ThreeForTwoOffer(product, unitPrice);
 
         if (offerType == SpecialOfferType.ThreeForTwo && threeForTwo.applies(this)) {
@@ -111,7 +111,7 @@ export class ShoppingCart {
         return discount;
     }
 
-    private getTwoForAmountDiscount(offerType: SpecialOfferType, offer: Offer, unitPrice: number, quantity: number, discount: Discount | null, product: Product) {
+    private getTwoForAmountDiscount(offerType: SpecialOfferType, offer: Offer, unitPrice: number, discount: Discount | null, product: Product) {
         const twoForAmount: TwoForAmountOffer = new TwoForAmountOffer(product, unitPrice, offer.argument);
 
         if (offerType == SpecialOfferType.TwoForAmount && twoForAmount.applies(this)) {
