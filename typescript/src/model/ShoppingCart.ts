@@ -75,23 +75,21 @@ export class ShoppingCart {
 
     private getDiscountForOffer(productName: string, offerType: SpecialOfferType, offer: Offer, unitPrice: number, product: Product) {
         const quantity: number = this._productQuantities[productName].quantity;
-        const quantityAsInt = quantity;
-
 
         let discount: Discount | null = null;
 
-        discount = this.getTwoForAmountDiscount(offerType, quantityAsInt, offer, unitPrice, quantity, discount, product);
-        discount = this.threeForTwoDiscount(offerType, quantityAsInt, quantity, unitPrice, discount, product);
+        discount = this.getTwoForAmountDiscount(offerType, offer, unitPrice, quantity, discount, product);
+        discount = this.threeForTwoDiscount(offerType, quantity, unitPrice, discount, product);
         discount = this.percentageDiscount(offerType, discount, product, offer, quantity, unitPrice);
-        discount = this.fiveForAmountDiscount(offerType, quantityAsInt, unitPrice, quantity, offer, discount, product);
+        discount = this.fiveForAmountDiscount(offerType, unitPrice, quantity, offer, discount, product);
         return discount;
     }
 
-    private fiveForAmountDiscount(offerType: SpecialOfferType, quantityAsInt: number, unitPrice: number, quantity: number, offer: Offer, discount: Discount | null, product: Product) {
+    private fiveForAmountDiscount(offerType: SpecialOfferType, unitPrice: number, quantity: number, offer: Offer, discount: Discount | null, product: Product) {
         const fiveForAmount: FiveForAmountOffer = new FiveForAmountOffer(product, unitPrice, offer.argument);
 
         if (offerType == SpecialOfferType.FiveForAmount && fiveForAmount.applies(this)) {
-            return fiveForAmount.getDiscount(quantityAsInt);
+            return fiveForAmount.getDiscount(quantity);
         }
         return discount;
     }
@@ -104,7 +102,7 @@ export class ShoppingCart {
         return discount;
     }
 
-    private threeForTwoDiscount(offerType: SpecialOfferType, quantityAsInt: number, quantity: number, unitPrice: number, discount: Discount | null, product: Product) {
+    private threeForTwoDiscount(offerType: SpecialOfferType, quantity: number, unitPrice: number, discount: Discount | null, product: Product) {
         const threeForTwo: ThreeForTwoOffer = new ThreeForTwoOffer(product, unitPrice);
 
         if (offerType == SpecialOfferType.ThreeForTwo && threeForTwo.applies(this)) {
@@ -113,11 +111,11 @@ export class ShoppingCart {
         return discount;
     }
 
-    private getTwoForAmountDiscount(offerType: SpecialOfferType, quantityAsInt: number, offer: Offer, unitPrice: number, quantity: number, discount: Discount | null, product: Product) {
+    private getTwoForAmountDiscount(offerType: SpecialOfferType, offer: Offer, unitPrice: number, quantity: number, discount: Discount | null, product: Product) {
         const twoForAmount: TwoForAmountOffer = new TwoForAmountOffer(product, unitPrice, offer.argument);
 
         if (offerType == SpecialOfferType.TwoForAmount && twoForAmount.applies(this)) {
-            return twoForAmount.getDiscount(quantityAsInt);
+            return twoForAmount.getDiscount(quantity);
         }
         return discount;
     }
