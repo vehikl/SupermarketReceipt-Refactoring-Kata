@@ -1,8 +1,10 @@
 import { Product } from "./Product"
 import { Discount } from "./Discount"
 import { ShoppingCart } from "./ShoppingCart";
+import OfferInterface from './OfferInterface';
 
-export class FiveForAmountOffer {
+
+export class FiveForAmountOffer implements OfferInterface {
   private minimumQuantityForOffer: number = 5;
   private product: Product;
   private unitPrice: number;

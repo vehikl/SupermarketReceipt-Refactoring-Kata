@@ -1,8 +1,9 @@
 import { ShoppingCart } from "./ShoppingCart";
 import { Product } from "./Product";
 import { Discount } from "./Discount";
+import OfferInterface from './OfferInterface';
 
-export class PercentageDiscountOffer {
+export class PercentageDiscountOffer implements OfferInterface {
   private product: Product;
   private unitPrice: number;
   private percentageOff: number;

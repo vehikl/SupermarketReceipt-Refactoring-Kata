@@ -4,16 +4,19 @@ import {Product} from "./Product"
 import {Receipt} from "./Receipt"
 import {Offer} from "./Offer"
 import {SpecialOfferType} from "./SpecialOfferType"
+import OfferInterface from "./OfferInterface";
 
 export class Teller {
 
     private offers: OffersByProduct = {};
+    private offersArray: Array<OfferInterface> = [];
 
     public constructor(private readonly catalog: SupermarketCatalog ) {
     }
 
-    public addSpecialOffer(offerType: SpecialOfferType , product: Product, argument: number): void {
+    public addSpecialOffer(offerType: SpecialOfferType, product: Product, argument: number): void {
         this.offers[product.name] = new Offer(offerType, product, argument);
+        this.offersArray.push();
     }
 
     public checksOutArticlesFrom(theCart: ShoppingCart): Receipt {
