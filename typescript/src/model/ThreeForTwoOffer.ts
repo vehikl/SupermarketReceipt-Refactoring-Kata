@@ -14,7 +14,8 @@ export class ThreeForTwoOffer {
     this.unitPrice = unitPrice;
   }
 
-  public getDiscount(quantity: number) {
+  public getDiscount(cart: ShoppingCart) {
+    const quantity = cart.getQuantityOf(this.product).quantity;
     const maybeDiscountMultiple = Math.floor(quantity / this.minimumQuantityForOffer);
     const discountAmount = quantity * this.unitPrice - ((maybeDiscountMultiple * 2 * this.unitPrice) + quantity % 3 * this.unitPrice);
 

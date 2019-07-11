@@ -89,7 +89,7 @@ export class ShoppingCart {
         const fiveForAmount: FiveForAmountOffer = new FiveForAmountOffer(product, unitPrice, offer.argument);
 
         if (offerType == SpecialOfferType.FiveForAmount && fiveForAmount.applies(this)) {
-            return fiveForAmount.getDiscount(quantity);
+            return fiveForAmount.getDiscount(this);
         }
         return discount;
     }
@@ -97,7 +97,7 @@ export class ShoppingCart {
     private percentageDiscount(offerType: SpecialOfferType, discount: Discount | null, product: Product, offer: Offer, quantity: number, unitPrice: number) {
         const percentageDiscount: PercentageDiscountOffer = new PercentageDiscountOffer(product, unitPrice, offer.argument);
         if (offerType == SpecialOfferType.TenPercentDiscount && percentageDiscount.applies(this)) {
-            return percentageDiscount.getDiscount(quantity);
+            return percentageDiscount.getDiscount(this);
         }
         return discount;
     }
@@ -106,7 +106,7 @@ export class ShoppingCart {
         const threeForTwo: ThreeForTwoOffer = new ThreeForTwoOffer(product, unitPrice);
 
         if (offerType == SpecialOfferType.ThreeForTwo && threeForTwo.applies(this)) {
-            return threeForTwo.getDiscount(quantity);
+            return threeForTwo.getDiscount(this);
         }
         return discount;
     }
@@ -115,7 +115,7 @@ export class ShoppingCart {
         const twoForAmount: TwoForAmountOffer = new TwoForAmountOffer(product, unitPrice, offer.argument);
 
         if (offerType == SpecialOfferType.TwoForAmount && twoForAmount.applies(this)) {
-            return twoForAmount.getDiscount(quantity);
+            return twoForAmount.getDiscount(this);
         }
         return discount;
     }

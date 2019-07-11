@@ -13,7 +13,8 @@ export class PercentageDiscountOffer {
     this.percentageOff = percentageOff;
   }
 
-  public getDiscount(quantity: number): Discount {
+  public getDiscount(cart: ShoppingCart): Discount {
+    const quantity = cart.getQuantityOf(this.product).quantity;
     return new Discount(this.product, this.percentageOff + "% off", (quantity * this.unitPrice * this.percentageOff) / 100 );
   }
 

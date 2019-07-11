@@ -14,7 +14,8 @@ export class FiveForAmountOffer {
     this.discountedPrice = discountedPrice;
   }
 
-  public getDiscount(quantity: number) {
+  public getDiscount(cart: ShoppingCart) {
+    const quantity = cart.getQuantityOf(this.product).quantity;
     const total = this.discountedPrice * Math.floor(quantity / this.minimumQuantityForOffer) + quantity % this.minimumQuantityForOffer * this.unitPrice;
     const discountAmount = this.unitPrice * quantity - total;
     return new Discount(this.product, `${this.minimumQuantityForOffer} for ${this.discountedPrice}`, discountAmount);
