@@ -33,10 +33,6 @@ export class ShoppingCart {
         return this._productQuantities;
     }
 
-    getQuantityOf(product: Product): ProductQuantity {
-        return this._productQuantities[product.name];
-    }
-
     getQuantityOfNumber(product: Product): number {
         if (!this._productQuantities[product.name]) {
             return 0
