@@ -7,6 +7,7 @@ import { Teller } from "../src/model/Teller"
 import { SpecialOfferType } from "../src/model/SpecialOfferType"
 import { ProductUnit } from "../src/model/ProductUnit"
 import { ReceiptPrinter } from "../src/ReceiptPrinter"
+import { FiveForAmountOffer } from "../src/model/FiveForAmountOffer";
 
 describe('Supermarket', () => {
     const applePrice: number = 1.99;

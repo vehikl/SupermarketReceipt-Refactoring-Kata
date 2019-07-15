@@ -10,6 +10,7 @@ import { TwoForAmountOffer } from "./TwoForAmountOffer";
 import { ThreeForTwoOffer } from "./ThreeForTwoOffer";
 import { PercentageDiscountOffer } from "./PercentageDiscountOffer";
 import { FiveForAmountOffer } from "./FiveForAmountOffer";
+import OfferInterface from "./OfferInterface";
 
 type ProductQuantities = { [productName: string]: ProductQuantity }
 export type OffersByProduct = { [productName: string]: Offer };
@@ -53,24 +54,37 @@ export class ShoppingCart {
         return new ProductQuantity(product, productQuantity.quantity + quantity)
     }
 
-    handleOffers(receipt: Receipt, offers: OffersByProduct, catalog: SupermarketCatalog): void {
-        for (const productName in this.productQuantities()) {
-            const productQuantity = this._productQuantities[productName]
-            const product = productQuantity.product;
+    handleOffers(receipt: Receipt, offers: OffersByProduct, catalog: SupermarketCatalog, allSpecialOffers: Array<OfferInterface>): void {
 
+        if (allSpecialOffers && allSpecialOffers.length) {
+            return this.calcDiscountUsingNewStructure(allSpecialOffers, receipt);
+        }
+
+        this.calcDiscountUsingTheOldWay(offers, catalog, receipt);
+    }
+
+    private calcDiscountUsingTheOldWay(offers: OffersByProduct, catalog: SupermarketCatalog, receipt: Receipt) {
+        for (const productName in this.productQuantities()) {
+            const productQuantity = this._productQuantities[productName];
+            const product = productQuantity.product;
             if (offers[productName]) {
                 const offer: Offer = offers[productName];
                 const unitPrice: number = catalog.getUnitPrice(product);
-
                 const offerType = offer.offerType;
-
                 let discount = this.getDiscountForOffer(productName, offerType, offer, unitPrice, product);
-
                 if (discount != null)
                     receipt.addDiscount(discount);
             }
-
         }
+    }
+
+    private calcDiscountUsingNewStructure(allSpecialOffers: OfferInterface[], receipt: Receipt) {
+        allSpecialOffers.forEach(offer => {
+            if (offer.applies(this)) {
+                receipt.addDiscount(offer.getDiscount(this));
+            }
+        });
+        return;
     }
 
     private getDiscountForOffer(productName: string, offerType: SpecialOfferType, offer: Offer, unitPrice: number, product: Product) {
