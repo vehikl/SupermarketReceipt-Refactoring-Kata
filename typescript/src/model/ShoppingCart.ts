@@ -37,6 +37,13 @@ export class ShoppingCart {
         return this._productQuantities[product.name];
     }
 
+    getQuantityOfNumber(product: Product): number {
+        if (!this._productQuantities[product.name]) {
+            return 0
+        }
+        return this._productQuantities[product.name].quantity;
+    }
+
 
     public addItemQuantity(product: Product, quantity: number): void {
         let productQuantity = new ProductQuantity(product, quantity)

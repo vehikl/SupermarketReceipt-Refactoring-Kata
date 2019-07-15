@@ -17,13 +17,13 @@ export class FiveForAmountOffer implements OfferInterface {
   }
 
   public getDiscount(cart: ShoppingCart) {
-    const quantity = cart.getQuantityOf(this.product).quantity;
+    const quantity = cart.getQuantityOfNumber(this.product);
     const total = this.discountedPrice * Math.floor(quantity / this.minimumQuantityForOffer) + quantity % this.minimumQuantityForOffer * this.unitPrice;
     const discountAmount = this.unitPrice * quantity - total;
     return new Discount(this.product, `${this.minimumQuantityForOffer} for ${this.discountedPrice}`, discountAmount);
   }
 
   public applies(cart: ShoppingCart): boolean {
-    return cart.getQuantityOf(this.product).quantity >= this.minimumQuantityForOffer;
+    return cart.getQuantityOfNumber(this.product) >= this.minimumQuantityForOffer;
   }
 }

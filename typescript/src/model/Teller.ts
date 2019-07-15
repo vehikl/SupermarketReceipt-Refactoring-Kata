@@ -16,7 +16,10 @@ export class Teller {
 
     public addSpecialOffer(offerType: SpecialOfferType, product: Product, argument: number): void {
         this.offers[product.name] = new Offer(offerType, product, argument);
-        this.offersArray.push();
+    }
+
+    public addNewTypeOfSpecialOffer(offer: OfferInterface) {
+        this.offersArray.push(offer);
     }
 
     public checksOutArticlesFrom(theCart: ShoppingCart): Receipt {
@@ -29,7 +32,7 @@ export class Teller {
             let price = quantity * unitPrice;
             receipt.addProduct(p, quantity, unitPrice, price);
         }
-        theCart.handleOffers(receipt, this.offers, this.catalog);
+        theCart.handleOffers(receipt, this.offers, this.catalog, this.offersArray);
 
         return receipt;
     }

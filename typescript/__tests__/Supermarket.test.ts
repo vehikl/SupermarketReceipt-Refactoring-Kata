@@ -8,6 +8,11 @@ import { SpecialOfferType } from "../src/model/SpecialOfferType"
 import { ProductUnit } from "../src/model/ProductUnit"
 import { ReceiptPrinter } from "../src/ReceiptPrinter"
 import { FiveForAmountOffer } from "../src/model/FiveForAmountOffer";
+import OfferInterface from "../src/model/OfferInterface";
+import { ThreeForTwoOffer } from "../src/model/ThreeForTwoOffer";
+import { Offer } from "../src/model/Offer";
+import { PercentageDiscountOffer } from "../src/model/PercentageDiscountOffer";
+import { TwoForAmountOffer } from "../src/model/TwoForAmountOffer";
 
 describe('Supermarket', () => {
     const applePrice: number = 1.99;
@@ -46,8 +51,8 @@ describe('Supermarket', () => {
     it('applies three for two discount', () => {
         cart.addItemQuantity(toothbrush, 3);
 
-
-        teller.addSpecialOffer(SpecialOfferType.ThreeForTwo, toothbrush, 10.0);
+        const threeForTwoOffer: OfferInterface = new ThreeForTwoOffer(toothbrush, toothbrushPrice);
+        teller.addNewTypeOfSpecialOffer(threeForTwoOffer);
 
         receipt = teller.checksOutArticlesFrom(cart);
 
@@ -74,7 +79,8 @@ describe('Supermarket', () => {
         const discountMultiplier = (100 - discountPercentage) / 100;
         cart.addItemQuantity(apples, 1);
 
-        teller.addSpecialOffer(SpecialOfferType.TenPercentDiscount, apples, discountPercentage);
+        const percentageOffer: OfferInterface = new PercentageDiscountOffer(apples, applePrice, discountPercentage);
+        teller.addNewTypeOfSpecialOffer(percentageOffer);
 
         receipt = teller.checksOutArticlesFrom(cart);
 
@@ -87,7 +93,8 @@ describe('Supermarket', () => {
         const discountMultiplier = (100 - discountPercentage) / 100;
         cart.addItemQuantity(rice, 1);
 
-        teller.addSpecialOffer(SpecialOfferType.TenPercentDiscount, rice, discountPercentage);
+        const percentageOffer: OfferInterface = new PercentageDiscountOffer(rice, ricePrice, discountPercentage);
+        teller.addNewTypeOfSpecialOffer(percentageOffer);
 
         receipt = teller.checksOutArticlesFrom(cart);
 
@@ -99,7 +106,8 @@ describe('Supermarket', () => {
         const discountedPriceForFive: number = 7.49;
         cart.addItemQuantity(toothpaste, 5);
 
-        teller.addSpecialOffer(SpecialOfferType.FiveForAmount, toothpaste, discountedPriceForFive);
+        const offer: OfferInterface = new FiveForAmountOffer(toothpaste, toothpastePrice, discountedPriceForFive);
+        teller.addNewTypeOfSpecialOffer(offer);
 
         receipt = teller.checksOutArticlesFrom(cart);
 
@@ -112,7 +120,8 @@ describe('Supermarket', () => {
         cart.addItem(cherryTomatoes);
         cart.addItem(cherryTomatoes);
 
-        teller.addSpecialOffer(SpecialOfferType.TwoForAmount, cherryTomatoes, discountedPriceForTwo);
+        const offer: OfferInterface = new TwoForAmountOffer(cherryTomatoes, cherryTomatoesPrice, discountedPriceForTwo);
+        teller.addNewTypeOfSpecialOffer(offer);
 
         receipt = teller.checksOutArticlesFrom(cart);
 
@@ -124,7 +133,8 @@ describe('Supermarket', () => {
         const discountedPriceForTwo: number = 0.99;
         cart.addItem(cherryTomatoes);
 
-        teller.addSpecialOffer(SpecialOfferType.TwoForAmount, cherryTomatoes, discountedPriceForTwo);
+        const offer: OfferInterface = new TwoForAmountOffer(cherryTomatoes, cherryTomatoesPrice, discountedPriceForTwo);
+        teller.addNewTypeOfSpecialOffer(offer);
 
         receipt = teller.checksOutArticlesFrom(cart);
 
@@ -135,7 +145,9 @@ describe('Supermarket', () => {
     it('does not apply discount to items not purchased', () => {
         cart.addItem(toothpaste);
 
-        teller.addSpecialOffer(SpecialOfferType.TwoForAmount, cherryTomatoes, 0.99);
+        const offer: OfferInterface = new TwoForAmountOffer(cherryTomatoes, cherryTomatoesPrice, 0.99);
+        teller.addNewTypeOfSpecialOffer(offer);
+        // teller.addSpecialOffer(SpecialOfferType.TwoForAmount, cherryTomatoes, 0.99);
 
         receipt = teller.checksOutArticlesFrom(cart);
 
