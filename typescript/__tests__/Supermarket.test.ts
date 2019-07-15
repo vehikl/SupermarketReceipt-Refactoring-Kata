@@ -65,8 +65,11 @@ describe('Supermarket', () => {
         cart.addItemQuantity(toothbrush, 3);
         cart.addItemQuantity(cherryTomatoes, 3);
 
-        teller.addSpecialOffer(SpecialOfferType.ThreeForTwo, toothbrush, 10.0);
-        teller.addSpecialOffer(SpecialOfferType.TwoForAmount, cherryTomatoes, discountedPriceForTwo);
+        const threeForTwoOffer: OfferInterface = new ThreeForTwoOffer(toothbrush, toothbrushPrice);
+        const twoForOffer: OfferInterface = new TwoForAmountOffer(cherryTomatoes, cherryTomatoesPrice, discountedPriceForTwo);
+
+        teller.addNewTypeOfSpecialOffer(threeForTwoOffer);
+        teller.addNewTypeOfSpecialOffer(twoForOffer);
 
         receipt = teller.checksOutArticlesFrom(cart);
 
@@ -147,7 +150,6 @@ describe('Supermarket', () => {
 
         const offer: OfferInterface = new TwoForAmountOffer(cherryTomatoes, cherryTomatoesPrice, 0.99);
         teller.addNewTypeOfSpecialOffer(offer);
-        // teller.addSpecialOffer(SpecialOfferType.TwoForAmount, cherryTomatoes, 0.99);
 
         receipt = teller.checksOutArticlesFrom(cart);
 
