@@ -15,11 +15,11 @@ export class PercentageDiscountOffer implements OfferInterface {
   }
 
   public getDiscount(cart: ShoppingCart): Discount {
-    const quantity = cart.getQuantityOfNumber(this.product);
+    const quantity = cart.getQuantityOf(this.product);
     return new Discount(this.product, this.percentageOff + "% off", (quantity * this.unitPrice * this.percentageOff) / 100 );
   }
 
   public applies(cart: ShoppingCart): boolean {
-    return cart.getQuantityOfNumber(this.product) >= 1;
+    return cart.getQuantityOf(this.product) >= 1;
   }
 }

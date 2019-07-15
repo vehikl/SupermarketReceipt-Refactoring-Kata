@@ -16,7 +16,7 @@ export class ThreeForTwoOffer implements OfferInterface {
   }
 
   public getDiscount(cart: ShoppingCart) {
-    const quantity = cart.getQuantityOfNumber(this.product);
+    const quantity = cart.getQuantityOf(this.product);
     const maybeDiscountMultiple = Math.floor(quantity / this.minimumQuantityForOffer);
     const discountAmount = quantity * this.unitPrice - ((maybeDiscountMultiple * 2 * this.unitPrice) + quantity % 3 * this.unitPrice);
 
@@ -24,6 +24,6 @@ export class ThreeForTwoOffer implements OfferInterface {
   }
 
   public applies(cart: ShoppingCart): boolean {
-    return cart.getQuantityOfNumber(this.product) > 2;
+    return cart.getQuantityOf(this.product) > 2;
   }
 }

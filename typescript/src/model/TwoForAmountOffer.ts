@@ -18,13 +18,13 @@ export class TwoForAmountOffer implements OfferInterface {
   }
 
   public getDiscount(cart: ShoppingCart) {
-    const quantity = cart.getQuantityOfNumber(this.product);
+    const quantity = cart.getQuantityOf(this.product);
     const total = this.discountedPrice * Math.floor(quantity / this.minimumQuantityForOffer) + quantity % 2 * this.unitPrice;
     const discountAmount = this.unitPrice * quantity - total;
     return new Discount(this.product, "2 for " + this.discountedPrice, discountAmount);
   }
 
   public applies(cart: ShoppingCart): boolean {
-    return cart.getQuantityOfNumber(this.product) >= 2;
+    return cart.getQuantityOf(this.product) >= 2;
   }
 }

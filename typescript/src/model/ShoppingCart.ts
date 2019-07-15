@@ -33,7 +33,7 @@ export class ShoppingCart {
         return this._productQuantities;
     }
 
-    getQuantityOfNumber(product: Product): number {
+    getQuantityOf(product: Product): number {
         if (!this._productQuantities[product.name]) {
             return 0
         }
