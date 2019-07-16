@@ -7,19 +7,13 @@ import {SpecialOfferType} from "./SpecialOfferType"
 import OfferInterface from "./OfferInterface";
 
 export class Teller {
-
-    private offers: OffersByProduct = {};
-    private offersArray: Array<OfferInterface> = [];
+    private offers: Array<OfferInterface> = [];
 
     public constructor(private readonly catalog: SupermarketCatalog ) {
     }
 
-    public addSpecialOffer(offerType: SpecialOfferType, product: Product, argument: number): void {
-        this.offers[product.name] = new Offer(offerType, product, argument);
-    }
-
-    public addNewTypeOfSpecialOffer(offer: OfferInterface) {
-        this.offersArray.push(offer);
+    public addSpecialOffer(offer: OfferInterface) {
+        this.offers.push(offer);
     }
 
     public checksOutArticlesFrom(theCart: ShoppingCart): Receipt {
@@ -32,7 +26,7 @@ export class Teller {
             let price = quantity * unitPrice;
             receipt.addProduct(p, quantity, unitPrice, price);
         }
-        theCart.handleOffers(receipt, this.offers, this.catalog, this.offersArray);
+        theCart.handleOffers(receipt, this.offers);
 
         return receipt;
     }
