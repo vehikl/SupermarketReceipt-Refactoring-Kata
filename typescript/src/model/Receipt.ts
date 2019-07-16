@@ -18,8 +18,8 @@ export class Receipt {
         return total;
     }
 
-    public addProduct( p: Product, quantity: number, price: number, totalPrice: number): void {
-        this.items.push(new ReceiptItem(p, quantity, price, totalPrice));
+    public addReceiptItem(item: ReceiptItem) {
+        this.items.push(item);
     }
 
     public getItems(): ReceiptItem[] {

@@ -2,6 +2,8 @@ import {SupermarketCatalog} from "./SupermarketCatalog"
 import {ShoppingCart} from "./ShoppingCart"
 import {Receipt} from "./Receipt"
 import OfferInterface from "./OfferInterface";
+import { Discount } from "./Discount";
+import { ReceiptItem } from "./ReceiptItem";
 
 export class Teller {
     private offers: Array<OfferInterface> = [];
@@ -21,9 +23,11 @@ export class Teller {
             let quantity = pq.quantity;
             let unitPrice = this.catalog.getUnitPrice(p);
             let price = quantity * unitPrice;
-            receipt.addProduct(p, quantity, unitPrice, price);
+            let receiptItem = new ReceiptItem(p, quantity, unitPrice, price);
+            receipt.addReceiptItem(receiptItem);
         }
-        theCart.handleOffers(receipt, this.offers);
+        const discounts: Array<Discount> = theCart.getDiscounts(this.offers);
+        discounts.forEach(discount => receipt.addDiscount(discount));
 
         return receipt;
     }

@@ -3,6 +3,7 @@ import * as _ from "lodash"
 import { ProductQuantity } from "./ProductQuantity"
 import { Receipt } from "./Receipt"
 import OfferInterface from "./OfferInterface";
+import { Discount } from "./Discount";
 
 type ProductQuantities = { [productName: string]: ProductQuantity }
 
@@ -41,11 +42,8 @@ export class ShoppingCart {
         return new ProductQuantity(product, productQuantity.quantity + quantity)
     }
 
-    handleOffers(receipt: Receipt, allSpecialOffers: Array<OfferInterface>): void {
-        allSpecialOffers.forEach(offer => {
-            if (offer.applies(this)) {
-                receipt.addDiscount(offer.getDiscount(this));
-            }
-        });
+    getDiscounts(allSpecialOffers: Array<OfferInterface>): Array<Discount> {
+        return allSpecialOffers.filter(offer => offer.applies(this))
+            .map(offer => offer.getDiscount(this));
     }
 }
