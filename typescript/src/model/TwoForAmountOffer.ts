@@ -1,9 +1,7 @@
 import { Product } from "./Product"
 import { Discount } from "./Discount"
-import { Offer } from "./Offer"
 import { ShoppingCart } from "./ShoppingCart";
 import OfferInterface from './OfferInterface';
-import { ProductQuantity } from "./ProductQuantity";
 
 export class TwoForAmountOffer implements OfferInterface {
   private minimumQuantityForOffer: number = 2;

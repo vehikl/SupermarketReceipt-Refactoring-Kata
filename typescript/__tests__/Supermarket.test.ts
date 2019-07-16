@@ -4,13 +4,11 @@ import { SupermarketCatalog } from "../src/model/SupermarketCatalog"
 import { Receipt } from "../src/model/Receipt"
 import { ShoppingCart } from "../src/model/ShoppingCart"
 import { Teller } from "../src/model/Teller"
-import { SpecialOfferType } from "../src/model/SpecialOfferType"
 import { ProductUnit } from "../src/model/ProductUnit"
 import { ReceiptPrinter } from "../src/ReceiptPrinter"
 import { FiveForAmountOffer } from "../src/model/FiveForAmountOffer";
 import OfferInterface from "../src/model/OfferInterface";
 import { ThreeForTwoOffer } from "../src/model/ThreeForTwoOffer";
-import { Offer } from "../src/model/Offer";
 import { PercentageDiscountOffer } from "../src/model/PercentageDiscountOffer";
 import { TwoForAmountOffer } from "../src/model/TwoForAmountOffer";
 

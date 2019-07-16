@@ -1,7 +1,5 @@
 import { Product } from "./Product"
 import { Discount } from "./Discount"
-import { Offer } from "./Offer"
-import { SpecialOfferType } from "./SpecialOfferType";
 import { ShoppingCart } from "./ShoppingCart";
 import OfferInterface from './OfferInterface';
 

@@ -16,20 +16,15 @@ export class Teller {
     }
 
     public checksOutArticlesFrom(theCart: ShoppingCart): Receipt {
-        const receipt = new Receipt();
-        const productQuantities = theCart.getItems();
-        for (let pq of productQuantities) {
-            let p = pq.product;
-            let quantity = pq.quantity;
-            let unitPrice = this.catalog.getUnitPrice(p);
-            let price = quantity * unitPrice;
-            let receiptItem = new ReceiptItem(p, quantity, unitPrice, price);
-            receipt.addReceiptItem(receiptItem);
-        }
+        const items = theCart.getItems().map(item => {
+            let product = item.product;
+            let quantity = item.quantity;
+            let price = this.catalog.getUnitPrice(product);
+            let totalPrice = quantity * price;
+            return new ReceiptItem(product, quantity, price, totalPrice);
+        });
         const discounts: Array<Discount> = theCart.getDiscounts(this.offers);
-        discounts.forEach(discount => receipt.addDiscount(discount));
 
-        return receipt;
+        return new Receipt(items, discounts);
     }
-
 }
