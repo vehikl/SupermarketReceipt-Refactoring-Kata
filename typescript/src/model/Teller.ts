@@ -1,9 +1,6 @@
 import {SupermarketCatalog} from "./SupermarketCatalog"
-import {OffersByProduct, ShoppingCart} from "./ShoppingCart"
-import {Product} from "./Product"
+import {ShoppingCart} from "./ShoppingCart"
 import {Receipt} from "./Receipt"
-import {Offer} from "./Offer"
-import {SpecialOfferType} from "./SpecialOfferType"
 import OfferInterface from "./OfferInterface";
 
 export class Teller {
