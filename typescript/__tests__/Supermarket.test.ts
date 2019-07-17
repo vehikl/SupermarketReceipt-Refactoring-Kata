@@ -11,6 +11,7 @@ import OfferInterface from "../src/model/offers/OfferInterface";
 import { ThreeForTwoOffer } from "../src/model/offers/ThreeForTwoOffer";
 import { PercentageDiscountOffer } from "../src/model/offers/PercentageDiscountOffer";
 import { TwoForAmountOffer } from "../src/model/offers/TwoForAmountOffer";
+import { TenPercentBundledOffer } from "../src/model/offers/TenPercentBundledOffer";
 
 describe('Supermarket', () => {
     const applePrice: number = 1.99;
@@ -153,5 +154,29 @@ describe('Supermarket', () => {
 
         expect(receipt.getTotalPrice()).toEqual(toothpastePrice);
         expect(printer.printReceipt(receipt)).toMatchSnapshot();
+    });
+
+    it('applies a bundle discount with one of each in the cart', () => {
+        const bundledOffer: OfferInterface = new TenPercentBundledOffer([toothbrush, toothpaste], catalog);
+        teller.addSpecialOffer(bundledOffer);
+
+        cart.addItem(toothbrush);
+        cart.addItem(toothpaste);
+
+        receipt = teller.checksOutArticlesFrom(cart);
+
+        expect(receipt.getTotalPrice()).toBeCloseTo((toothbrushPrice + toothpastePrice) * 0.9);
+    });
+
+    it('applies a bundle discount with another one of each in the cart', () => {
+        const bundledOffer: OfferInterface = new TenPercentBundledOffer([cherryTomatoes, apples], catalog);
+        teller.addSpecialOffer(bundledOffer);
+
+        cart.addItem(cherryTomatoes);
+        cart.addItem(apples);
+
+        receipt = teller.checksOutArticlesFrom(cart);
+
+        expect(receipt.getTotalPrice()).toBeCloseTo((cherryTomatoesPrice + applePrice) * 0.9);
     });
 });
