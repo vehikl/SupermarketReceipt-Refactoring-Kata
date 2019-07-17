@@ -179,4 +179,15 @@ describe('Supermarket', () => {
 
         expect(receipt.getTotalPrice()).toBeCloseTo((cherryTomatoesPrice + applePrice) * 0.9);
     });
+
+    it('only applies bundle discounts to applicable products', () => {
+        const bundledOffer: OfferInterface = new TenPercentBundledOffer([cherryTomatoes, apples], catalog);
+        teller.addSpecialOffer(bundledOffer);
+
+        cart.addItem(toothbrush);
+
+        receipt = teller.checksOutArticlesFrom(cart);
+
+        expect(receipt.getTotalPrice()).toBeCloseTo(toothbrushPrice);
+    });
 });
