@@ -1,5 +1,5 @@
-import { Discount } from "./Discount"
-import { ShoppingCart } from "./ShoppingCart";
+import { Discount } from "../Discount"
+import { ShoppingCart } from "../ShoppingCart";
 
 interface OfferInterface {
   getDiscount(cart: ShoppingCart): Discount;

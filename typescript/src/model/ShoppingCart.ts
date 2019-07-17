@@ -1,8 +1,7 @@
 import { Product } from "./Product"
 import * as _ from "lodash"
 import { ProductQuantity } from "./ProductQuantity"
-import { Receipt } from "./Receipt"
-import OfferInterface from "./OfferInterface";
+import OfferInterface from "./offers/OfferInterface";
 import { Discount } from "./Discount";
 
 type ProductQuantities = { [productName: string]: ProductQuantity }

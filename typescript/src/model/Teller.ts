@@ -1,7 +1,7 @@
 import {SupermarketCatalog} from "./SupermarketCatalog"
 import {ShoppingCart} from "./ShoppingCart"
 import {Receipt} from "./Receipt"
-import OfferInterface from "./OfferInterface";
+import OfferInterface from "./offers/OfferInterface";
 import { Discount } from "./Discount";
 import { ReceiptItem } from "./ReceiptItem";
 

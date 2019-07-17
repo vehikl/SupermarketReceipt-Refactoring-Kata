@@ -1,6 +1,6 @@
-import { Product } from "./Product"
-import { Discount } from "./Discount"
-import { ShoppingCart } from "./ShoppingCart";
+import { Product } from "../Product"
+import { Discount } from "../Discount"
+import { ShoppingCart } from "../ShoppingCart";
 import OfferInterface from './OfferInterface';
 
 export class TwoForAmountOffer implements OfferInterface {

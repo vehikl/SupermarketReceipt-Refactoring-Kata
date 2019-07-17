@@ -6,11 +6,11 @@ import { ShoppingCart } from "../src/model/ShoppingCart"
 import { Teller } from "../src/model/Teller"
 import { ProductUnit } from "../src/model/ProductUnit"
 import { ReceiptPrinter } from "../src/ReceiptPrinter"
-import { FiveForAmountOffer } from "../src/model/FiveForAmountOffer";
-import OfferInterface from "../src/model/OfferInterface";
-import { ThreeForTwoOffer } from "../src/model/ThreeForTwoOffer";
-import { PercentageDiscountOffer } from "../src/model/PercentageDiscountOffer";
-import { TwoForAmountOffer } from "../src/model/TwoForAmountOffer";
+import { FiveForAmountOffer } from "../src/model/offers/FiveForAmountOffer";
+import OfferInterface from "../src/model/offers/OfferInterface";
+import { ThreeForTwoOffer } from "../src/model/offers/ThreeForTwoOffer";
+import { PercentageDiscountOffer } from "../src/model/offers/PercentageDiscountOffer";
+import { TwoForAmountOffer } from "../src/model/offers/TwoForAmountOffer";
 
 describe('Supermarket', () => {
     const applePrice: number = 1.99;
