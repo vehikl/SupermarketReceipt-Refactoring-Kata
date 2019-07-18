@@ -24,7 +24,7 @@ export class ReceiptPrinter {
             result += line;
         }
         for (const discount of receipt.getDiscounts()) {
-            let productPresentation = discount.product.name;
+            let productPresentation = discount.getProductPresentation();
             let pricePresentation = this.format2Decimals(discount.discountAmount);
             let description = discount.description;
             result += description;
