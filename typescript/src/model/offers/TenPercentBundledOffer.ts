@@ -14,26 +14,24 @@ export class TenPercentBundledOffer implements OfferInterface {
   }
 
   getDiscount(cart: ShoppingCart): Discount {
-    let totalPrice: number = this.getTotalPriceOfBundledProducts(cart);
+    const bundleCount = this.getBundleCount(cart);
+    let totalPrice: number = this.getTotalPriceOfBundledProducts(bundleCount);
     return new Discount(new Product('product', ProductUnit.Kilo), '', totalPrice * 0.1);
   }
 
-  private getTotalPriceOfBundledProducts(cart: ShoppingCart) {
-    const bundleMultiple = this.getBundleCount(cart);
+  private getTotalPriceOfBundledProducts(bundleCount: number) {
     let totalPrice: number = 0;
     this.bundledProducts.forEach(product => {
       totalPrice += this.catalog.getUnitPrice(product);
     });
 
-    return totalPrice * bundleMultiple;
+    return totalPrice * bundleCount;
   }
 
   private getBundleCount(cart: ShoppingCart) {
     return this.bundledProducts
       .map(product => cart.getQuantityOf(product))
-      .reduce((result, quantity) => {
-      return Math.min(result, quantity);
-    });
+      .reduce((result, quantity) => Math.min(result, quantity));
   }
 
   applies(cart: ShoppingCart): boolean {
