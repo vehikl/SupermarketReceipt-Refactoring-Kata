@@ -25,8 +25,8 @@ export class ReceiptPrinter {
         }
         for (const discount of receipt.getDiscounts()) {
             let productPresentation = discount.getProductPresentation();
-            let pricePresentation = this.format2Decimals(discount.discountAmount);
-            let description = discount.description;
+            let pricePresentation = this.format2Decimals(discount.getDiscountAmount());
+            let description = discount.getDescription();
             result += description;
             result += "(";
             result += productPresentation;
