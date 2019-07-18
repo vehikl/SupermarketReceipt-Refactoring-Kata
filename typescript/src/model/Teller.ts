@@ -23,8 +23,13 @@ export class Teller {
             let totalPrice = quantity * price;
             return new ReceiptItem(product, quantity, price, totalPrice);
         });
-        const discounts: Array<Discount> = theCart.getDiscounts(this.offers);
+        const discounts: Array<Discount> = this.getDiscounts(theCart);
 
         return new Receipt(items, discounts);
+    }
+
+    private getDiscounts(cart: ShoppingCart): Array<Discount> {
+        return this.offers.filter(offer => offer.applies(cart))
+            .map(offer => offer.getDiscount(cart));
     }
 }

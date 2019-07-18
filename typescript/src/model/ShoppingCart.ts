@@ -40,9 +40,4 @@ export class ShoppingCart {
     private increaseQuantity(product: Product, productQuantity: ProductQuantity, quantity: number) {
         return new ProductQuantity(product, productQuantity.quantity + quantity)
     }
-
-    getDiscounts(allSpecialOffers: Array<OfferInterface>): Array<Discount> {
-        return allSpecialOffers.filter(offer => offer.applies(this))
-            .map(offer => offer.getDiscount(this));
-    }
 }
