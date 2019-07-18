@@ -191,15 +191,16 @@ describe('Supermarket', () => {
         expect(receipt.getTotalPrice()).toBeCloseTo(toothbrushPrice);
     });
 
-    // it('applies a bundle discount to a pair of bundled products', () => {
-    //     const bundledOffer: OfferInterface = new TenPercentBundledOffer([cherryTomatoes, apples], catalog);
-    //     teller.addSpecialOffer(bundledOffer);
+    it('applies a bundle discount to a pair of bundled products', () => {
+        const bundledOffer: OfferInterface = new TenPercentBundledOffer([cherryTomatoes, apples], catalog);
+        teller.addSpecialOffer(bundledOffer);
 
-    //     cart.addItem(cherryTomatoes);
-    //     cart.addItem(apples);
+        cart.addItemQuantity(cherryTomatoes, 2);
+        cart.addItemQuantity(apples, 2);
 
-    //     receipt = teller.checksOutArticlesFrom(cart);
+        receipt = teller.checksOutArticlesFrom(cart);
 
-    //     expect(receipt.getTotalPrice()).toBeCloseTo((cherryTomatoesPrice + applePrice) * 0.9);
-    // });
+        const discountedPriceForOneBundle = (cherryTomatoesPrice + applePrice) * 0.9;
+        expect(receipt.getTotalPrice()).toBeCloseTo(discountedPriceForOneBundle * 2);
+    });
 });
