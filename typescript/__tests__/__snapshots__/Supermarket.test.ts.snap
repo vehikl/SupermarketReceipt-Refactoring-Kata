@@ -1,5 +1,15 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
+exports[`Supermarket applies a bundle discount to a pair of bundled products 1`] = `
+"cherry tomatoes                     1.38
+  0.69 * 2
+apples                              3.98
+  1.99 * 2.000
+10% off(cherry tomatoes & apples)  -0.54
+
+Total:                              4.82"
+`;
+
 exports[`Supermarket applies five for amount discount 1`] = `
 "toothpaste                          8.95
   1.79 * 5

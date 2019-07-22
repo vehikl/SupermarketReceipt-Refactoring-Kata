@@ -16,7 +16,7 @@ export class TenPercentBundledOffer implements OfferInterface {
   getDiscount(cart: ShoppingCart): DiscountInterface {
     const bundleCount = this.getBundleCount(cart);
     let totalPrice: number = this.getTotalPriceOfBundledProducts(bundleCount);
-    return new BundledDiscount(this.bundledProducts, 'Ten percent bundle discount', totalPrice * 0.1);
+    return new BundledDiscount(this.bundledProducts, '10% off', totalPrice * 0.1);
   }
 
   private getTotalPriceOfBundledProducts(bundleCount: number) {

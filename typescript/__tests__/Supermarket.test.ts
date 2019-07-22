@@ -202,5 +202,6 @@ describe('Supermarket', () => {
 
         const discountedPriceForOneBundle = (cherryTomatoesPrice + applePrice) * 0.9;
         expect(receipt.getTotalPrice()).toBeCloseTo(discountedPriceForOneBundle * 2);
+        expect(printer.printReceipt(receipt)).toMatchSnapshot();
     });
 });
