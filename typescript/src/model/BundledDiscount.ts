@@ -1,7 +1,7 @@
 import { Product } from "./Product"
 import DiscountInterface from "./DiscountInterface"
 
-export class BundledDiscount implements DiscountInterface {
+export default class BundledDiscount implements DiscountInterface {
 
   constructor(private readonly products: Product[],
     private readonly description: string,

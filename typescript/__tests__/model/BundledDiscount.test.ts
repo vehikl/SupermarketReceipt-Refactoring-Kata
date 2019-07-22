@@ -1,4 +1,4 @@
-import { BundledDiscount } from '../../src/model/BundledDiscount';
+import BundledDiscount from '../../src/model/BundledDiscount';
 import { Product } from '../../src/model/Product';
 import { ProductUnit } from '../../src/model/ProductUnit';
 

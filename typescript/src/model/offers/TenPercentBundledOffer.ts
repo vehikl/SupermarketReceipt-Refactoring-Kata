@@ -1,10 +1,9 @@
 import OfferInterface from './OfferInterface';
 import { ShoppingCart } from '../ShoppingCart';
-import { Discount } from '../Discount';
 import { Product } from '../Product';
-import { ProductUnit } from '../ProductUnit';
 import { SupermarketCatalog } from '../SupermarketCatalog';
 import DiscountInterface from '../DiscountInterface';
+import BundledDiscount from '../BundledDiscount';
 
 export class TenPercentBundledOffer implements OfferInterface {
   private bundledProducts: Array<Product>;
@@ -17,7 +16,7 @@ export class TenPercentBundledOffer implements OfferInterface {
   getDiscount(cart: ShoppingCart): DiscountInterface {
     const bundleCount = this.getBundleCount(cart);
     let totalPrice: number = this.getTotalPriceOfBundledProducts(bundleCount);
-    return new Discount(new Product('product', ProductUnit.Kilo), '', totalPrice * 0.1);
+    return new BundledDiscount(this.bundledProducts, 'Ten percent bundle discount', totalPrice * 0.1);
   }
 
   private getTotalPriceOfBundledProducts(bundleCount: number) {
