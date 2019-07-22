@@ -1,11 +1,11 @@
-import {Discount} from "./Discount"
 import {ReceiptItem} from "./ReceiptItem"
+import DiscountInterface from "./DiscountInterface";
 
 export class Receipt {
     private readonly items: ReceiptItem[] = [];
-    private readonly discounts: Discount[] = [];
+    private readonly discounts: DiscountInterface[] = [];
 
-    public constructor(items: Array<ReceiptItem>, discounts: Array<Discount>) {
+    public constructor(items: Array<ReceiptItem>, discounts: Array<DiscountInterface>) {
         this.items = items;
         this.discounts = discounts;
     }
@@ -25,7 +25,7 @@ export class Receipt {
         return this.items;
     }
 
-    public getDiscounts(): Discount[] {
+    public getDiscounts(): DiscountInterface[] {
         return this.discounts;
     }
 }

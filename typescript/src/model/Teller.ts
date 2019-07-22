@@ -4,6 +4,7 @@ import {Receipt} from "./Receipt"
 import OfferInterface from "./offers/OfferInterface";
 import { Discount } from "./Discount";
 import { ReceiptItem } from "./ReceiptItem";
+import DiscountInterface from "./DiscountInterface";
 
 export class Teller {
     private offers: Array<OfferInterface> = [];
@@ -23,12 +24,12 @@ export class Teller {
             let totalPrice = quantity * price;
             return new ReceiptItem(product, quantity, price, totalPrice);
         });
-        const discounts: Array<Discount> = this.getDiscounts(theCart);
+        const discounts: Array<DiscountInterface> = this.getDiscounts(theCart);
 
         return new Receipt(items, discounts);
     }
 
-    private getDiscounts(cart: ShoppingCart): Array<Discount> {
+    private getDiscounts(cart: ShoppingCart): Array<DiscountInterface> {
         return this.offers.filter(offer => offer.applies(cart))
             .map(offer => offer.getDiscount(cart));
     }

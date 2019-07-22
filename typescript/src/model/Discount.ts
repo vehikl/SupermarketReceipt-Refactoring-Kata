@@ -1,6 +1,7 @@
-import {Product} from "./Product"
+import { Product } from "./Product"
+import DiscountInterface from "./DiscountInterface"
 
-export class Discount {
+export class Discount implements DiscountInterface {
 
     constructor(private readonly product: Product,
                 private readonly description: string,

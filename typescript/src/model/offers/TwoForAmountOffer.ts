@@ -2,6 +2,7 @@ import { Product } from "../Product"
 import { Discount } from "../Discount"
 import { ShoppingCart } from "../ShoppingCart";
 import OfferInterface from './OfferInterface';
+import DiscountInterface from "../DiscountInterface";
 
 export class TwoForAmountOffer implements OfferInterface {
   private minimumQuantityForOffer: number = 2;
@@ -15,7 +16,7 @@ export class TwoForAmountOffer implements OfferInterface {
     this.discountedPrice = discountedPrice;
   }
 
-  public getDiscount(cart: ShoppingCart) {
+  public getDiscount(cart: ShoppingCart): DiscountInterface {
     const quantity = cart.getQuantityOf(this.product);
     const total = this.discountedPrice * Math.floor(quantity / this.minimumQuantityForOffer) + quantity % 2 * this.unitPrice;
     const discountAmount = this.unitPrice * quantity - total;

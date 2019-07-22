@@ -1,8 +1,8 @@
-import { Discount } from "../Discount"
 import { ShoppingCart } from "../ShoppingCart";
+import DiscountInterface from "../DiscountInterface";
 
 interface OfferInterface {
-  getDiscount(cart: ShoppingCart): Discount;
+  getDiscount(cart: ShoppingCart): DiscountInterface;
   applies(cart: ShoppingCart): boolean;
 }
 

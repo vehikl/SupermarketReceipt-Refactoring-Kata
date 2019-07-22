@@ -2,6 +2,7 @@ import { ShoppingCart } from "../ShoppingCart";
 import { Product } from "../Product";
 import { Discount } from "../Discount";
 import OfferInterface from './OfferInterface';
+import DiscountInterface from "../DiscountInterface";
 
 export class PercentageDiscountOffer implements OfferInterface {
   private product: Product;
@@ -14,7 +15,7 @@ export class PercentageDiscountOffer implements OfferInterface {
     this.percentageOff = percentageOff;
   }
 
-  public getDiscount(cart: ShoppingCart): Discount {
+  public getDiscount(cart: ShoppingCart): DiscountInterface {
     const quantity = cart.getQuantityOf(this.product);
     return new Discount(this.product, this.percentageOff + "% off", (quantity * this.unitPrice * this.percentageOff) / 100 );
   }
